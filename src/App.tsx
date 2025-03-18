@@ -26,18 +26,12 @@ const App = () => (
           <Toaster />
           <Sonner />
           <Routes>
+            {/* Public Routes */}
             <Route path="/" element={<Index />} />
             <Route path="/properties" element={<Properties />} />
             <Route path="/properties/:id" element={<PropertyDetail />} />
             <Route path="/buy" element={<Properties />} />
             <Route path="/rent" element={<Properties />} />
-            
-            {/* Property Listing Wizard - Protected */}
-            <Route path="/properties/create" element={
-              <ProtectedRoute>
-                <PropertyListingWizard />
-              </ProtectedRoute>
-            } />
             
             {/* Auth Routes */}
             <Route path="/auth" element={<AuthLayout />}>
@@ -49,6 +43,13 @@ const App = () => (
             <Route path="/profile" element={
               <ProtectedRoute>
                 <Profile />
+              </ProtectedRoute>
+            } />
+            
+            {/* Property Management Routes - Protected */}
+            <Route path="/properties/create" element={
+              <ProtectedRoute>
+                <PropertyListingWizard />
               </ProtectedRoute>
             } />
             
