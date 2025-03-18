@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -27,7 +26,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
-        setSession((prev) => ({ ...prev, user: session.user, isLoading: false }));
+        setSession((prev) => ({ 
+          ...prev, 
+          user: { 
+            id: session.user.id, 
+            email: session.user.email || ''
+          }, 
+          isLoading: false 
+        }));
         fetchProfile(session.user.id);
       } else {
         setSession((prev) => ({ ...prev, isLoading: false }));
@@ -37,7 +43,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, newSession) => {
       if (newSession) {
-        setSession((prev) => ({ ...prev, user: newSession.user }));
+        setSession((prev) => ({ 
+          ...prev, 
+          user: { 
+            id: newSession.user.id, 
+            email: newSession.user.email || '' 
+          } 
+        }));
         fetchProfile(newSession.user.id);
       } else {
         setSession({ user: null, profile: null, isLoading: false });

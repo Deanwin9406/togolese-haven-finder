@@ -14,6 +14,7 @@ import Profile from "./pages/auth/Profile";
 import AuthLayout from "./components/auth/AuthLayout";
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import PropertyListingWizard from "./pages/PropertyListingWizard";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,13 @@ const App = () => (
             <Route path="/properties/:id" element={<PropertyDetail />} />
             <Route path="/buy" element={<Properties />} />
             <Route path="/rent" element={<Properties />} />
+            
+            {/* Property Listing Wizard - Protected */}
+            <Route path="/properties/create" element={
+              <ProtectedRoute>
+                <PropertyListingWizard />
+              </ProtectedRoute>
+            } />
             
             {/* Auth Routes */}
             <Route path="/auth" element={<AuthLayout />}>

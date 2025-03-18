@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -10,6 +9,9 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
 import { AlertCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import PropertyMap from "@/components/PropertyMap";
 
 const Properties = () => {
   const [searchParams] = useSearchParams();
@@ -25,7 +27,6 @@ const Properties = () => {
     isForSale: undefined,
   });
 
-  // Initialize filters from URL params
   useEffect(() => {
     const initialFilters = { ...filters };
     
@@ -40,12 +41,10 @@ const Properties = () => {
     
     setFilters(initialFilters);
     
-    // Set active tab based on forSale param
     if (forSale === "true") setActiveTab("buy");
     else if (forSale === "false") setActiveTab("rent");
     else setActiveTab("all");
     
-    // Apply initial filters
     applyFilters(initialFilters);
   }, [searchParams]);
 
@@ -62,7 +61,6 @@ const Properties = () => {
   const handleTabChange = (value: string) => {
     setActiveTab(value);
     
-    // Update isForSale filter based on tab
     const updatedFilters = { ...filters };
     if (value === "buy") updatedFilters.isForSale = true;
     else if (value === "rent") updatedFilters.isForSale = false;
@@ -84,6 +82,17 @@ const Properties = () => {
           </p>
         </div>
         
+        <div className="flex justify-end mb-6">
+          <Button asChild className="bg-togo-green hover:bg-togo-green/90">
+            <Link to="/properties/create">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10 3a1 1 0 00-1 1v5H4a1 1 0 100 2h5v5a1 1 0 102 0v-5h5a1 1 0 100-2h-5V4a1 1 0 00-1-1z" clipRule="evenodd" />
+              </svg>
+              Ajouter une propriété
+            </Link>
+          </Button>
+        </div>
+        
         <Tabs value={activeTab} onValueChange={handleTabChange} className="mb-8">
           <TabsList className="grid w-full grid-cols-3 mb-4">
             <TabsTrigger value="all">Toutes les propriétés</TabsTrigger>
@@ -92,6 +101,10 @@ const Properties = () => {
           </TabsList>
           
           <PropertyFilter onFilter={handleFilter} className="mb-8" />
+          
+          <div className="mb-6 rounded-lg overflow-hidden shadow-md">
+            <PropertyMap properties={filteredProperties} height="400px" />
+          </div>
           
           <Separator className="my-6" />
           

@@ -305,13 +305,13 @@ const PropertyDetail = () => {
               <TabsContent value="location">
                 <div>
                   <h2 className="text-xl font-semibold mb-4">Localisation</h2>
-                  <div className="aspect-video bg-muted rounded-lg flex items-center justify-center mb-4">
-                    <div className="text-center p-6">
-                      <MapPin className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-                      <p className="text-muted-foreground">
-                        Carte en cours de chargement...
-                      </p>
-                    </div>
+                  <div className="aspect-video rounded-lg overflow-hidden mb-4">
+                    {/* Replace static map with interactive map */}
+                    <PropertyMap 
+                      properties={[property]} 
+                      height="400px"
+                      zoom={15}
+                    />
                   </div>
                   <p className="text-muted-foreground">
                     Cette propriété est idéalement située à {property.location}, dans un quartier calme et 
